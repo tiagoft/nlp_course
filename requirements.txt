@@ -1,2 +1,6 @@
 typer
 rich
+ipython
+ipykernel
+jupyter
+bs4
