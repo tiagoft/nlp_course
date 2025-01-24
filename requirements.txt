@@ -4,3 +4,11 @@ ipython
 ipykernel
 jupyter
 bs4
+kagglehub
+pandas
+matplotlib
+tqdm
+scikit-learn
+nltk
+google-generativeai
+python-dotenv

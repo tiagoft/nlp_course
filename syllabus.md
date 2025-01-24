@@ -2,10 +2,8 @@
 
 ## Part 1: Classic NLP
 1. Regex (part 1)
-1. Regex (part 2) + sentiment analysis with ontology
+1. Regex (part 2), DF, stemming, lemmatization, displaying collection content, Topic Modelling
 1. Linguistic Model (n-grams), Markov Chains, and PoS tagging
-1. TF-IDF, stemming, lemmatization
-1. Topic Modelling, displaying collection content
 1. Content-based search, inverted index
 1. Text classifier (Bag-of-words, Naive Bayes, Logistic Regression)
 1. TEST 1
