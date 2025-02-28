@@ -5,8 +5,9 @@ import os
 def find_subdir(start_dir):
     # Get the list of all subdirectories starting at the given path
     subdirectories = [x[0] for x in os.walk(start_dir)]
-    subdirectories = [x.split('/',1)[-1]+'/*' for x in subdirectories]
+    subdirectories = [x.split('/', 1)[-1] + '/*' for x in subdirectories]
     return subdirectories
+
 
 # Lendo o conteúdo do README.md para usar como descrição longa
 with open("README.md", "r", encoding="utf-8") as fh:
@@ -22,10 +23,12 @@ setup(
     description="A course on modern NLP",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/tiagoft/My course on NLP",  # URL do repositório do seu projeto (se houver)
-    packages=find_packages(),  # Encontra automaticamente todos os pacotes no diretório
+    url=
+    "https://github.com/tiagoft/nlp_course",  # URL do repositório do seu projeto (se houver)
+    packages=find_packages(
+    ),  # Encontra automaticamente todos os pacotes no diretório
     package_data={
-    '': find_subdir(f'{MODULE_SLUG}/assets'),
+        '': find_subdir(f'{MODULE_SLUG}/assets'),
     },
     include_package_data=True,
     classifiers=[
@@ -39,7 +42,8 @@ setup(
             f'nlp_course-cli={MODULE_SLUG}.main:app',
         ],
     },
-    install_requires=[  # Instala as dependências especificadas no requirements.txt
+    install_requires=
+    [  # Instala as dependências especificadas no requirements.txt
         line.strip() for line in open("requirements.txt").readlines()
     ],
 )

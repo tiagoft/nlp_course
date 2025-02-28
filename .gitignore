@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+notebooks/sandbox
 
 # C extensions
 *.so

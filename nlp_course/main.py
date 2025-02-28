@@ -22,8 +22,9 @@ def crawl_url(
     """
     Crawl a website and print the visited URLs
     """
-    _, saved_info = nlp.crawl(url, max_documents)
+    _, saved_info, saved_emails = nlp.crawl(url, max_documents)
     console.print(saved_info)
+    console.print(saved_emails)
 
 
 @app.command('info')
