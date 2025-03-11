@@ -3,8 +3,12 @@
 ## Part 1: Classic NLP
 1. Regex (part 1)
 1. Regex (part 2), DF, stemming, lemmatization, displaying collection content, Topic Modelling
-1. Linguistic Model (n-grams), Markov Chains, and PoS tagging
-1. Text classifier (Bag-of-words, Naive Bayes, Logistic Regression)
+1. Content-based Search with LDA
+1. Linguistic Model (n-grams)
+1. Part-of-Speech tagging
+1. Text classifier (Bag-of-words, Naive Bayes, Logistic Regression, ensembles)
+1. Explaining classifiers
+1. Text classification activity
 1. TEST 1
 
 ## Part 2: Modern NLP
