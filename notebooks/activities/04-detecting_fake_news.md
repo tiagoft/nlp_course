@@ -1,8 +1,8 @@
-# Can we detect Fake News?
+# How much data do we need? A study on detecting Fake News with Machine Learning
 
 One amazing feat we have today is that there are so many datasets available online. One important hub for datasets is Kaggle.
 
-One important problem we've had in the last few years is the propagation of fake news - which are statements that range from being outright lies, to convenient interpretations of the facts, to naive replications of common sense. 
+One important problem we've had in the last few years is the propagation of fake news - which are statements that range from being outright lies, to convenient interpretations of the facts, to naive replications of common sense.
 
 Well, fortunately, we have many datasets on Kaggle containing news labeled as either fake or true. But: is it feasible to use Machine Learning to detect fake news?
 
@@ -25,4 +25,8 @@ Do you believe fake news detection with a classifier like ours is reliable?
 
 Find how much each word contributes to the overall classification. Are these words the same in each dataset?
 
-Reflect: why is this happening?
+Reflect: 
+
+* Why is this happening? 
+* Do these results indicate that our detector is reliable?
+* Is it feasible to detect fake news using a Bag-of-Words classifier?
