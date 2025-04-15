@@ -13,3 +13,4 @@ nltk
 google-generativeai
 python-dotenv
 torch
+transformers
