@@ -18,7 +18,7 @@ jobs:
           python-version: '3.x'
 
       - name: Install MkDocs
-        run: pip install mkdocs mkdocs-material mkdocs-get-deps mkdocs-jupyter mkdocs-mermaid2-plugin mkdocs-material-extensions mkdocs_pymdownx_material_extras
+        run: pip install mkdocs python-markdown-math mkdocs-material mkdocs-get-deps mkdocs-jupyter mkdocs-mermaid2-plugin mkdocs-material-extensions mkdocs_pymdownx_material_extras
 
 
       - name: Build MkDocs site
