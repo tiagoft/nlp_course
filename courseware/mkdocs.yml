@@ -1,4 +1,7 @@
 site_name: Natural Language Processing - 2025s2
+
+site_dir: build
+
 nav:
   - Home: index.md
   - Classic Learning:

@@ -1,0 +1,31 @@
+name: Deploy MkDocs
+
+on:
+  push:
+    branches:
+      - main  # Change this to your default branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install MkDocs
+        run: pip install mkdocs mkdocs-material mkdocs-get-deps mkdocs-jupyter mkdocs-mermaid2-plugin mkdocs-material-extensions mkdocs_pymdownx_material_extras
+
+      - name: Change to Courseware directory
+        run: cd courseware  # Change this to your MkDocs directory if different
+
+      - name: Build MkDocs site
+        run: mkdocs build --site-dir ./build  # Change 'custom-folder' to your desired directory
+
+      - name: Deploy to GitHub Pages
+        run: mkdocs gh-deploy --config-file ./mkdocs.yml --site-dir ./build --force
+
