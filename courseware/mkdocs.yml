@@ -1,0 +1,41 @@
+site_name: Natural Language Processing - 2025s2
+nav:
+  - Home: index.md
+  - Classic Learning:
+    - 01 - Practice - Sentiment Analysis with ANEW: primer.md
+    - 02 - Theory - Math of Logistic Regression: math_of_lr.md
+    - 03 - Case Study - Classification on IMDB: case_study_sentiment.ipynb
+  - Deep Learning:
+    - 01 - Theory - Multilayer Perceptron: 08-mlp.ipynb
+    - 02 - Theory - Self-attention: 09-self_attention.ipynb
+
+theme:
+  name: mkdocs
+  features:
+    - content.mathjax
+
+markdown_extensions:
+  - mdx_math:
+      enable_dollar_delimiter: true 
+      add_preview: true
+
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+
+plugins:
+  - search
+  - mermaid2
+
+  - mkdocs-jupyter:
+      ignore_h1_titles: True
+      theme: mkdocs
+
+
+
+extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML
+  - https://unpkg.com/mermaid/dist/mermaid.min.js
