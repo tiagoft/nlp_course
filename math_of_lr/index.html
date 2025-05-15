@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+
+<html data-bs-theme="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="../img/favicon.ico" rel="shortcut icon"/>
+<title>02 - Theory - Math of Logistic Regression - Natural Language Processing - 2025s2</title>
+<link href="../css/bootstrap.min.css" rel="stylesheet"/>
+<link href="../css/fontawesome.min.css" rel="stylesheet"/>
+<link href="../css/brands.min.css" rel="stylesheet"/>
+<link href="../css/solid.min.css" rel="stylesheet"/>
+<link href="../css/v4-font-face.min.css" rel="stylesheet"/>
+<link href="../css/base.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" id="hljs-light" rel="stylesheet"/>
+<link disabled="" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" id="hljs-dark" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+</head>
+<body>
+<div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+<div class="container">
+<a class="navbar-brand" href="..">Natural Language Processing - 2025s2</a>
+<!-- Expander button -->
+<button aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbar-collapse" data-bs-toggle="collapse" type="button">
+<span class="navbar-toggler-icon"></span>
+</button>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse" id="navbar-collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li class="nav-item">
+<a class="nav-link" href="..">Home</a>
+</li>
+<li class="nav-item dropdown">
+<a aria-current="page" aria-expanded="false" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown" href="#" role="button">Classic Learning</a>
+<ul class="dropdown-menu">
+<li>
+<a class="dropdown-item" href="../primer/">01 - Practice - Sentiment Analysis with ANEW</a>
+</li>
+<li>
+<a aria-current="page" class="dropdown-item active" href="./">02 - Theory - Math of Logistic Regression</a>
+</li>
+<li>
+<a class="dropdown-item" href="../case_study_sentiment/">03 - Case Study - Classification on IMDB</a>
+</li>
+</ul>
+</li>
+<li class="nav-item dropdown">
+<a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">Deep Learning</a>
+<ul class="dropdown-menu">
+<li>
+<a class="dropdown-item" href="../08-mlp/">01 - Theory - Multilayer Perceptron</a>
+</li>
+<li>
+<a class="dropdown-item" href="../09-self_attention/">02 - Theory - Self-attention</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav ms-md-auto">
+<li class="nav-item">
+<a class="nav-link" data-bs-target="#mkdocs_search_modal" data-bs-toggle="modal" href="#">
+<i class="fa fa-search"></i> Search
+                            </a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="../primer/" rel="prev">
+<i class="fa fa-arrow-left"></i> Previous
+                                </a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="../case_study_sentiment/" rel="next">
+                                    Next <i class="fa fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="row">
+<div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+<div class="navbar-header">
+<button class="navbar-toggler collapsed" data-bs-target="#toc-collapse" data-bs-toggle="collapse" title="Table of Contents" type="button">
+<span class="fa fa-angle-down"></span>
+</button>
+</div>
+<div class="navbar-collapse collapse card bg-body-tertiary" id="toc-collapse">
+<ul class="nav flex-column">
+<li class="nav-item" data-bs-level="1"><a class="nav-link" href="#the-mathematics-of-logistic-regression">The Mathematics of Logistic Regression</a>
+<ul class="nav flex-column">
+<li class="nav-item" data-bs-level="2"><a class="nav-link" href="#learning-outcomes">Learning outcomes</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-bs-level="2"><a class="nav-link" href="#introduction">Introduction</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-bs-level="2"><a class="nav-link" href="#summing-values">Summing values</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-bs-level="2"><a class="nav-link" href="#weighted-averages">Weighted averages</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-bs-level="2"><a class="nav-link" href="#multiplying-vectors">Multiplying vectors</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-bs-level="2"><a class="nav-link" href="#types-of-bag-of-words-representations">Types of Bag-of-Words representations</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-bs-level="2"><a class="nav-link" href="#logistic-regression">Logistic Regression</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-bs-level="2"><a class="nav-link" href="#finding-the-weights-and-biases">Finding the weights and biases</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-item" data-bs-level="1"><a class="nav-link" href="#practical-exercise">Practical exercise</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+</ul>
+</div>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="the-mathematics-of-logistic-regression">The Mathematics of Logistic Regression</h1>
+<h2 id="learning-outcomes">Learning outcomes</h2>
+<p>At the end of this activity, students should be able to:</p>
+<ul>
+<li>Describe the vectorizer + classifier pipeline</li>
+<li>Fit and evaluate a classifier;</li>
+<li>Investigate scikit learn's documentation</li>
+<li>Relate the logistic regression mathematical model to its implementation</li>
+</ul>
+<p>Please, mind of these skills while working in this activity.</p>
+<h2 id="introduction">Introduction</h2>
+<p>If everything went well, at this point you are well acquainted with the problem of <a href="../primer/">classifying a text based on its words</a>. Let's take a dive into that problem.</p>
+<p>ANEW data provided us with a list of words and their corresponding <em>valence</em>. Valence is the property of a sentiment that makes it "pleasant" or "unpleasant" - an this is why this is called the "pleasure" axis. We usually associate positive sentiments with a high valence, or a high pleasure. So, let's say we have the words <em>happy</em>, <em>sad</em>, <em>joy</em>, and <em>anger</em>. Their valences (or: their values in the pleasure axis) are somewhat like:</p>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Valence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>happy</td>
+<td>high</td>
+</tr>
+<tr>
+<td>sad</td>
+<td>low</td>
+</tr>
+<tr>
+<td>joy</td>
+<td>high</td>
+</tr>
+<tr>
+<td>anger</td>
+<td>low</td>
+</tr>
+</tbody>
+</table>
+<p>In our exercise, it is likely that we had many different solutions to use this information to classify our texts. However, we will now focus on a very specific one.</p>
+<h2 id="summing-values">Summing values</h2>
+<p>Let's attribute values to our words. If the word has high valence, it receives a value of <span><span class="MathJax_Preview">$1$</span><script type="math/tex">1</script></span>. If the word has low valence, it receives a value of <span><span class="MathJax_Preview">$-1$</span><script type="math/tex">-1</script></span>. If it is not on our list, it receives the value of <span><span class="MathJax_Preview">$0$</span><script type="math/tex">0</script></span>. Then, we can calculate the sum of the values for all words for the whole phrase. For example, in the phrase: "I feel angry", we have values <span><span class="MathJax_Preview">$0$</span><script type="math/tex">0</script></span>, <span><span class="MathJax_Preview">$0$</span><script type="math/tex">0</script></span>, and <span><span class="MathJax_Preview">$-1$</span><script type="math/tex">-1</script></span>. Hence, the final sum is <span><span class="MathJax_Preview">$-1$</span><script type="math/tex">-1</script></span>.</p>
+<p><strong>Exercise</strong>: calculate the sum of all word values in the phrases below:</p>
+<details>
+<summary>I am so happy!</summary>
+1
+<details><summary>Why?</summary>
+0 (I) + 0 (am) + 0 (so) + 1 (happy)
+</details>
+</details>
+<details>
+<summary>I am so sad!</summary>
+-1
+</details>
+<details>
+<summary>I am so sad, but the world if full of joy!</summary>
+0
+</details>
+<h2 id="weighted-averages">Weighted averages</h2>
+<p>Now, let's formulate this in a more elegant way. We will divide our sum into two vectors. Each of these two vectors is as long as our vocabulary. In our case, we have four words in our vocabulary, hence our vectors should have <span><span class="MathJax_Preview">$4$</span><script type="math/tex">4</script></span> elements.</p>
+<h3 id="a-bag-of-words">A bag-of-words</h3>
+<p>The first vector will be called <span><span class="MathJax_Preview">$x$</span><script type="math/tex">x</script></span>. It contains one position (or: one dimension) for each word in the vocabulary. Each of the elements is called <span><span class="MathJax_Preview">$x_i$</span><script type="math/tex">x_i</script></span>, where <span><span class="MathJax_Preview">$i$</span><script type="math/tex">i</script></span> is the position, that is:</p>
+<p>
+<div><span class="MathJax_Preview">$$ 
+x = 
+\begin{bmatrix} 
+x_1 &amp; x_2 &amp; x_3 &amp; x_4 
+\end{bmatrix}
+$$</span><script type="math/tex; mode=display"> 
+x = 
+\begin{bmatrix} 
+x_1 & x_2 & x_3 & x_4 
+\end{bmatrix}
+</script>
+</div>
+</p>
+<p><span><span class="MathJax_Preview">$x$</span><script type="math/tex">x</script></span> will represent the presence of each word in our text, that is, <span><span class="MathJax_Preview">$x_i=1$</span><script type="math/tex">x_i=1</script></span> if the corresponding word is present in the text, and <span><span class="MathJax_Preview">$x_i=0$</span><script type="math/tex">x_i=0</script></span> otherwise. Of course, we need to have some way to link words with their respective <span><span class="MathJax_Preview">$i$</span><script type="math/tex">i</script></span>'s. One way to do that is to use a table:</p>
+<table>
+<thead>
+<tr>
+<th>Word</th>
+<th>Value of <span><span class="MathJax_Preview">$i$</span><script type="math/tex">i</script></span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>happy</td>
+<td>1</td>
+</tr>
+<tr>
+<td>sad</td>
+<td>2</td>
+</tr>
+<tr>
+<td>joy</td>
+<td>3</td>
+</tr>
+<tr>
+<td>anger</td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+<p>This means that each text will have a different <span><span class="MathJax_Preview">$x$</span><script type="math/tex">x</script></span>. Find <span><span class="MathJax_Preview">$x$</span><script type="math/tex">x</script></span> for each of the following phrases:</p>
+<details>
+<summary>I am so happy!</summary>
+\begin{bmatrix} 1 &amp; 0 &amp; 0 &amp; 0 \end{bmatrix}
+<details>
+<summary>Why?</summary>
+It has the word happy, but not the words sad, joy, or anger.
+</details>
+</details>
+<details>
+<summary>I am so sad!</summary>
+\begin{bmatrix} 0 &amp; 1 &amp; 0 &amp; 0 \end{bmatrix}
+</details>
+<details>
+<summary>I am so sad, but I am somewhat happy because the world if full of joy!</summary>
+\begin{bmatrix} 1 &amp; 1 &amp; 1 &amp; 0 \end{bmatrix}
+</details>
+<p>This type of representation is usually called <strong>Bag-of-Words</strong>. This is because the order of words is ignored, as if the words were put into a bag.</p>
+<h3 id="the-weight-vector">The weight vector</h3>
+<p>Now, we will define a weight vector <span><span class="MathJax_Preview">$w$</span><script type="math/tex">w</script></span>. It has the same number of elements of <span><span class="MathJax_Preview">$x$</span><script type="math/tex">x</script></span> (that is, in our case, it is <span><span class="MathJax_Preview">$4$</span><script type="math/tex">4</script></span>). Each element <span><span class="MathJax_Preview">$w_i$</span><script type="math/tex">w_i</script></span> contains the weight given to that word, following the rule we had used previously (<span><span class="MathJax_Preview">$1$</span><script type="math/tex">1</script></span> for positive valence, <span><span class="MathJax_Preview">$-1$</span><script type="math/tex">-1</script></span> for negative valence, <span><span class="MathJax_Preview">$0$</span><script type="math/tex">0</script></span> for neither positive or negative valence).</p>
+<p><strong>Exercise</strong></p>
+<p>Find the values for:
+<div><span class="MathJax_Preview">$$w =\begin{bmatrix}w_1 &amp;w_2 &amp;w_3 &amp;w4\end{bmatrix} $$</span><script type="math/tex; mode=display">w =\begin{bmatrix}w_1 &w_2 &w_3 &w4\end{bmatrix} </script>
+</div>
+</p>
+<p>in our current problem.</p>
+<details>
+<summary>Answer here</summary>
+w=\begin{bmatrix} 1 &amp; -1 &amp; 1 &amp; -1 \end{bmatrix}
+</details>
+<h2 id="multiplying-vectors">Multiplying vectors</h2>
+<p>Now, to replicate the same result we had in the <a href="#summing-values">Summing Values</a> section, we need to use the weights in <span><span class="MathJax_Preview">$w$</span><script type="math/tex">w</script></span> and multiply them by the values in <span><span class="MathJax_Preview">$x$</span><script type="math/tex">x</script></span>. Also, we can add a bias <span><span class="MathJax_Preview">$b$</span><script type="math/tex">b</script></span> to adjust the "zero" in our model. In other words, we need to calculate:</p>
+<p>
+<div><span class="MathJax_Preview">$$
+z = b + \sum_{i=1}^n x_i w_i = b+ x_1w_1 + x_2w_2 + x_3w_3 + x_4w_4
+$$</span><script type="math/tex; mode=display">
+z = b + \sum_{i=1}^n x_i w_i = b+ x_1w_1 + x_2w_2 + x_3w_3 + x_4w_4
+</script>
+</div>
+</p>
+<p>Note that this is equal to using a matrix multiplication:</p>
+<p>
+<div><span class="MathJax_Preview">$$
+z = b + \begin{bmatrix} x_1 &amp; x_2 &amp; x_3 &amp; x_4 \end{bmatrix} \begin{bmatrix} w_1 \\ w_2 \\ w_3 \\ w_4 \end{bmatrix}
+$$</span><script type="math/tex; mode=display">
+z = b + \begin{bmatrix} x_1 & x_2 & x_3 & x_4 \end{bmatrix} \begin{bmatrix} w_1 \\ w_2 \\ w_3 \\ w_4 \end{bmatrix}
+</script>
+</div>
+</p>
+<p>And, for this reason, the literature usually uses the compact matrix notation:</p>
+<p>
+<div><span class="MathJax_Preview">$$
+z = x w^T + b
+$$</span><script type="math/tex; mode=display">
+z = x w^T + b
+</script>
+</div>
+</p>
+<p>The matrix notation is often called "elegant" because it is compact and clear. However, our problem does not end here.</p>
+<p>The <span><span class="MathJax_Preview">$x$</span><script type="math/tex">x</script></span> vector represents the document. The <span><span class="MathJax_Preview">$w$</span><script type="math/tex">w</script></span> vector represents the weights given to each of these words. So we can start with the question: <strong>what are the optimal values for <span><span class="MathJax_Preview">$x$</span><script type="math/tex">x</script></span> and <span><span class="MathJax_Preview">$w$</span><script type="math/tex">w</script></span>?</strong></p>
+<h2 id="types-of-bag-of-words-representations">Types of Bag-of-Words representations</h2>
+<p>The simplest way to determine <span><span class="MathJax_Preview">$x$</span><script type="math/tex">x</script></span> is to use a binary representation where <span><span class="MathJax_Preview">$x_i$</span><script type="math/tex">x_i</script></span> is assigned a value of 1 if the corresponding word exists in the text and 0 if it does not. An alternative method is to define <span><span class="MathJax_Preview">$x_i$</span><script type="math/tex">x_i</script></span> as the number of times the corresponding word appears in the text. This value is known as <strong>Term Frequency (TF)</strong> and provides a measure of how frequently a word appears within a given document. A higher term frequency suggests greater relevance within that specific text.</p>
+<p>A more refined approach is to adjust the term frequency by incorporating document frequency. Specifically, TF is divided by the number of documents in which the word appears, referred to as <strong>Document Frequency (DF)</strong>. This results in the Term Frequency–Inverse Document Frequency (TF-IDF) method, which produces a vector indicating the significance of each word in distinguishing one document from the entire collection. By reducing the weight of commonly used words across multiple documents, TF-IDF enhances the relevance of terms that are more unique to a given text.</p>
+<p><strong>Exercises</strong></p>
+<details><summary>What does Term Frequency (TF) measure?</summary>TF quantifies how often a word appears in a document. A higher frequency suggests greater relevance within that specific document.</details>
+<details><summary>What is the purpose of Inverse Document Frequency (IDF) in the TF-IDF method?</summary>IDF adjusts the TF score by reducing the importance of words that appear in many documents. This helps highlight terms that are more unique to a particular document.</details>
+<details><summary>If a word appears in 100 documents out of a total of 1,000 appearances in unique documents, how does IDF affect its relevance?</summary>The IDF component lowers the word's significance because it is relatively common across documents. Words appearing in fewer documents receive higher importance in TF-IDF.</details>
+<h2 id="logistic-regression">Logistic Regression</h2>
+<p>You may have noted that the equation <span><span class="MathJax_Preview">$z=b+\sum_{i=1}^n x_i w_i=b+x w^T$</span><script type="math/tex">z=b+\sum_{i=1}^n x_i w_i=b+x w^T</script></span> is equivalent to the formula for a linear prediction. This means that <span><span class="MathJax_Preview">$z$</span><script type="math/tex">z</script></span> can assume any real number, positive or negative. However, we can ally a function called <em>logistic function</em> to <span><span class="MathJax_Preview">$z$</span><script type="math/tex">z</script></span> so that it becomes bounded to the limits <span><span class="MathJax_Preview">$[0,1]$</span><script type="math/tex">[0,1]</script></span>:</p>
+<p>
+<div><span class="MathJax_Preview">$$
+y=\sigma(z)=\frac{1}{1+e^{-z}}.
+$$</span><script type="math/tex; mode=display">
+y=\sigma(z)=\frac{1}{1+e^{-z}}.
+</script>
+</div>
+</p>
+<p>The logistic function <span><span class="MathJax_Preview">$\sigma(.)$</span><script type="math/tex">\sigma(.)</script></span> has interesting properties:</p>
+<ul>
+<li>If <span><span class="MathJax_Preview">$z \rightarrow \infty$</span><script type="math/tex">z \rightarrow \infty</script></span>, <span><span class="MathJax_Preview">$\sigma(z)=1$</span><script type="math/tex">\sigma(z)=1</script></span> (or: <span><span class="MathJax_Preview">$\lim _{z\rightarrow \infty}=1$</span><script type="math/tex">\lim _{z\rightarrow \infty}=1</script></span>)</li>
+<li>If <span><span class="MathJax_Preview">$z \rightarrow -\infty$</span><script type="math/tex">z \rightarrow -\infty</script></span>, <span><span class="MathJax_Preview">$\sigma(z)=0$</span><script type="math/tex">\sigma(z)=0</script></span> (or: <span><span class="MathJax_Preview">$\lim _{z\rightarrow -\infty}=0$</span><script type="math/tex">\lim _{z\rightarrow -\infty}=0</script></span>)</li>
+<li>If <span><span class="MathJax_Preview">$z=0$</span><script type="math/tex">z=0</script></span>, <span><span class="MathJax_Preview">$\sigma(z)=\frac{1}{2}$</span><script type="math/tex">\sigma(z)=\frac{1}{2}</script></span>.</li>
+</ul>
+<p>Because of that, the result <span><span class="MathJax_Preview">$y$</span><script type="math/tex">y</script></span> can be interpreted as a probability <span><span class="MathJax_Preview">$P(\text{class is ``positive''} | x)$</span><script type="math/tex">P(\text{class is ``positive''} | x)</script></span>, that is, the probability of the input belonging to the "positive" class given its representation <span><span class="MathJax_Preview">$x$</span><script type="math/tex">x</script></span>. This is commonly written as <span><span class="MathJax_Preview">$P(C=c_j | X=x)$</span><script type="math/tex">P(C=c_j | X=x)</script></span>, meaning that there are two random variables <span><span class="MathJax_Preview">$C$</span><script type="math/tex">C</script></span> and <span><span class="MathJax_Preview">$X$</span><script type="math/tex">X</script></span> and that they relate to each other by means of the logistic regression <span><span class="MathJax_Preview">$P(C|X) = \sigma(xw^T+b)$</span><script type="math/tex">P(C|X) = \sigma(xw^T+b)</script></span>.</p>
+<p><strong>Exercises</strong></p>
+<details><summary>What does the random variable X represent?</summary>X represents the distribution of all vectors that represent texts within a collection. A sample drawn from X is the representation of a text.</details>
+<details><summary>What does the random variable C represent? What is P(C) and P(C|X)?</summary>C represents a variable whose samples are classes. P(C) is the probability distribution of classes, that is, the probability of drawing a random sample from the dataset and it belonging to each of the classes. P(C|X) represents the probability of C given X, that is, the probability of drawing a random sample and it belonging to each of the classes, but with prior knowledge of its representation. Ideally, P(C|X) is 1 for the correct class and 0 for all other classes.</details>
+<h2 id="finding-the-weights-and-biases">Finding the weights and biases</h2>
+<p>Although we could adjust all coefficients for our logistic regression by hand, a more effective way is to find the difference between the predicted <span><span class="MathJax_Preview">$P(C|X)$</span><script type="math/tex">P(C|X)</script></span> and a ground truth distribution derived from a manually labeled dataset. There are many methods for this, and the most common one is <a href="https://en.wikipedia.org/wiki/Gradient_descent">gradient descent</a>. In classification problems, gradient descent is used to minimize the <a href="https://en.wikipedia.org/wiki/Cross-entropy">cross entropy</a> between the predicted and the ground-truth distributions.</p>
+<h3 id="creating-a-classification-pipeline">Creating a classification pipeline</h3>
+<p>At this point, we are not going to reimplement gradient descent. Instead, we are going to use the scikit-learn library for that. Note that we need to create and object perform TFIDF vectorization (as in: convert a text to a vector using TFIDF), another object to perform Logistic Regression per se, and, finally, join them using a Pipeline object:</p>
+<pre><code>from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import Pipeline
+
+model = Pipeline([
+    ('tfidf', TfidfVectorizer()),
+    ('clf', LogisticRegression())
+])
+</code></pre>
+<h3 id="dividing-data-into-train-and-test">Dividing data into train and test</h3>
+<p>When we use our model, we need to fit it to a portion of our dataset, and then use the remainder of our labeled dataset to evaluate how our model would behave on unseen data. For such purpose, we use the <code>train_test_split</code> function:</p>
+<pre><code>from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+</code></pre>
+<p>When dealing with texts, <code>X</code> is assumed to have one text per line. In fact, <code>X</code> can be a list of texts, a <code>pandas.Series</code> containing one text per line, or even a <code>numpy.array</code> with strings. <code>y</code> is an equivalent structure containing one label per line.</p>
+<h3 id="fit-and-evaluate-our-model">Fit and evaluate our model</h3>
+<p>Last, we need to fit (adjust weights and biases) our model to our training data, and then evaluate it in the testing data. We can evaluate the model using the accuracy score, which is the number of correctly classified dataset items divided by the total number of items in the dataset:</p>
+<pre><code>from sklearn.metrics import accuracy_score
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print(f'Accuracy: {accuracy:.2f}')
+</code></pre>
+<p>The <code>.fit</code> method finds both the vocabulary and the parameters for the TFIDF vectorizer and the logistic regression. The <code>.predict</code> method generates predicted labels for each element in <code>X_test</code>.</p>
+<p><strong>Exercise</strong>:</p>
+<p>Consider the diagram below, which depicts a pipeline similar to that explained in this section. In this figure, <span><span class="MathJax_Preview">$A$</span><script type="math/tex">A</script></span> and <span><span class="MathJax_Preview">$B$</span><script type="math/tex">B</script></span> are vectors.</p>
+<div class="mermaid">
+graph LR;
+    T([Text]) --&gt; V[Bow Vectorizer] --&gt; A([A]) --&gt; Classifier --&gt; B([B]);
+</div>
+<details><summary>What is the dimension of A?</summary>A is the result of a bag-of-words vectorizer. It is a vector with as many positions (dimensions) as there are words in the vocabulary.</details>
+<details><summary>What is the dimension of B?</summary>B is the result of a logistic regression. If it follows the formulation shown in this lesson, it is one single real number between 0 and 1.</details>
+<h1 id="practical-exercise">Practical exercise</h1>
+<ol>
+<li>Use the same dataset you gathered for <a href="../primer/">Activity 1</a>.</li>
+<li>Split it into train and test.</li>
+<li>Compare the performance of the rule-based classifier you had done previously with the performance of a logistic regression trained on data.</li>
+<li>Use <a href="https://scikit-learn.org/stable/">scikit learn's documentation</a>. Find the <em>vocabulary</em> of your trained model. How many words does it have?</li>
+<li>Still using the documentation, find the variables that contain the weights <span><span class="MathJax_Preview">$w$</span><script type="math/tex">w</script></span> and the bias <span><span class="MathJax_Preview">$b$</span><script type="math/tex">b</script></span> within your model.</li>
+<li>Relate the <span><span class="MathJax_Preview">$z$</span><script type="math/tex">z</script></span> and <span><span class="MathJax_Preview">$y$</span><script type="math/tex">y</script></span> variables in this lesson to the methods <code>.predict_proba()</code> and <code>.decision_function()</code>. Which is which?</li>
+</ol></div>
+</div>
+</div>
+<footer class="col-md-12">
+<hr/>
+<p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+</footer>
+<script src="../js/bootstrap.bundle.min.js"></script>
+<script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+<script src="../js/base.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+<script src="../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+</div>
+<div class="modal-body">
+<p>From here you can search these documents. Enter your search terms below.</p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="search"/>
+</div>
+</form>
+<div data-no-results-text="No results found" id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script>mermaid.initialize({});</script></body>
+</html>
