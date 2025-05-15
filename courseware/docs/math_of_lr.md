@@ -216,10 +216,10 @@ The `.fit` method finds both the vocabulary and the parameters for the TFIDF vec
 
 Consider the diagram below, which depicts a pipeline similar to that explained in this section. In this figure, $A$ and $B$ are vectors.
 
-```mermaid
+<div class="mermaid">
 graph LR;
     T([Text]) --> V[Bow Vectorizer] --> A([A]) --> Classifier --> B([B]);
-```
+</div>
 
 <details><summary>What is the dimension of A?</summary>A is the result of a bag-of-words vectorizer. It is a vector with as many positions (dimensions) as there are words in the vocabulary.</details>
 
