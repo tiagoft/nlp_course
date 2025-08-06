@@ -9,16 +9,16 @@ nav:
     - 01 - Practice - Sentiment Analysis with ANEW: sentiment_analysis/01-handcrafted.md
     - 02 - Theory - Math of Logistic Regression: sentiment_analysis/02-math_of_lr.md
     - 03 - Case Study - Classification on IMDB: sentiment_analysis/03-case_study_sentiment.ipynb
-    - 04 - Practice - Cross-dataset Classification: sentiment_analysis/04-studio_cross_dataset.ipynb
+    - 04 - Practice - Cross-dataset Classification: sentiment_analysis/04-studio-cross_dataset.ipynb
     - 05 - Practice - Detecting Fake News: sentiment_analysis/05-detecting_fake_news.md
   - Language Models:
-    - 00 - Theory - Language Models: 00-language_models_ngrams.ipynb
+    - 00 - Theory - Language Models: language_models/00-language_models_ngrams.ipynb
     - 01 - Case Study - Language Models: language_models/01-case_study_bullshit.ipynb
     - 02 - Theory - From Sklearn to Pytorch: language_models/02-from_sklearn_to_pytorch.ipynb
     - 03 - Theory - Tokenizers: language_models/03-end_to_end_neural_networks.ipynb
     - 04 - Theory - Self-attention: language_models/04-self_attention.ipynb
     - 05 - Theory - Multiple layers: language_models/05-mlp.ipynb
-    - 06 - Case Study - Pre-trained BERT: language_models/06-case_study_bert.ipynb
+    - 06 - Case Study - Pre-trained BERT: language_models/06-pretrained_bert.ipynb
 #    - 07 - Practice - Fine-tuning BERT: language_models/07-fine_tuning_bert.ipynb
 
 theme:
