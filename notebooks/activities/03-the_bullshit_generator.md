@@ -1,6 +1,32 @@
 # The Bullshit Generator
 
-Bullshit is the name given to phrases that make absolutely no sense, but are somewhat well formed.
+## History of this activity
+
+Bullshit is the name given to phrases that make absolutely no sense, but are somewhat well formed. This is an introductory activity that can be executed in class (or at home?), and 
+
+## Theory
+
+### N-grams
+
+By now, you might have noticed that using one single word in the past to predict the next word feels wrong. This is because we choose words based on a long-term context - and using a single word is a large oversimplification on this.
+
+A possible solution is to change our original equation $𝑃(𝑤_𝑛∣𝑤_{𝑛−1})$ to a less naive one in which the probability of a word is calculated based on $L$ previous words ($L$ stands for "context length"): $𝑃(𝑤_𝑛∣𝑤_{𝑛−1}, w_{n-2}, \cdots, w_{n-L})$ . For such, we will need to use n-grams.
+
+N-grams are simply sequences of N words that appear in the text. For example, in "these are nice n-grams", for n=2, we have the n-grams: "these are", "are nice", "nice n-grams". Note that now we can calculate $P(\text{nice}|\text{these are}).
+
+### A fallback strategy
+
+Also, by now, you probably found out that larger n-grams become more and more uncommon. This is so true that finding two texts that contain n-grams with a context $L$ larger than around 10 can be used as basis to flag copy-paste plagiarism. Hence, with larger n-grams, we will probably fall into situations in which we don't have information on how to proceed.
+
+On the other hand, we might like larger context lengths because they can make our texts more cohesive.
+
+How to deal with that?
+
+One possibility is to have a weighting strategy in which the probabilities for models that consider different n-gram lengths are combined. However, the optimal combination could be hard to obtain.
+
+Another possibility is to use a fallback strategy: we try a model with context $L$. If it fails to find the n-gram, then we proceed to a model with context $L-1$, and so on.
+
+## Practice
 
 In this activity, you will make a bullshit generator.
 
