@@ -5,11 +5,11 @@ site_dir: build
 nav:
   - Home: index.md
   - Sentiment Analysis:
-    - 00 - Regular expressions: sentiment_analysis/00-regex.ipynb
+    - 00 - Review - Regular expressions: sentiment_analysis/00-regex.ipynb
     - 01 - Practice - Sentiment Analysis with ANEW: sentiment_analysis/01-handcrafted.md
     - 02 - Theory - Math of Logistic Regression: sentiment_analysis/02-math_of_lr.md
     - 03 - Case Study - Classification on IMDB: sentiment_analysis/03-case_study_sentiment.ipynb
-    - 04 - Practice - Cross-dataset Classification: sentiment_analysis/04-studio-cross_dataset.ipynb
+    - 04 - Practice - Cross-dataset Classification: sentiment_analysis/04-studio-cross-dataset.ipynb
     - 05 - Practice - Detecting Fake News: sentiment_analysis/05-detecting_fake_news.md
   - Language Models:
     - 00 - Theory - Language Models: language_models/00-language_models_ngrams.ipynb
