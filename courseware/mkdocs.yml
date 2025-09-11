@@ -6,7 +6,6 @@ nav:
   - Home: index.md
   - Text Classification:
     - 00 - Review - Regular expressions: text_classification/00-regex.ipynb
-    - 00a - Solution for exercises in 00: text_classification/00a-solutions.ipynb
     - 01 - Practice - Sentiment Analysis with ANEW: text_classification/01-handcrafted.md
     - 02 - Theory - Math of Logistic Regression: text_classification/02-math_of_lr.md
     - 02a - Theory - Supplementary Material: text_classification/02a-toy_problem.ipynb
@@ -15,6 +14,7 @@ nav:
     - 05 - Practice - Detecting Fake News: text_classification/05-detecting_fake_news.md
   - Language Models:
     - 00 - Theory - Language Models: language_models/00-language_models_ngrams.ipynb
+    - 00a - Solution for exercises in 00: language_models/00a-solutions.ipynb
     - 01 - Case Study - Language Models: language_models/01-case_study_bullshit.ipynb
     - 02 - Theory - From Sklearn to Pytorch: language_models/02-from_sklearn_to_pytorch.ipynb
     - 03 - Theory - MLP, Residuals, Normalization: language_models/05-mlp.ipynb
