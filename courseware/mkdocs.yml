@@ -18,8 +18,7 @@ nav:
     - 01 - Case Study - Language Models: language_models/01-case_study_bullshit.ipynb
     - 02 - Theory - From Sklearn to Pytorch: language_models/02-from_sklearn_to_pytorch.ipynb
     - 03 - Theory - MLP, Residuals, Normalization: language_models/05-mlp.ipynb
-    - 04 - Practice - Classification and Visualization: language_models/08-deep_learning_for_classification.md
-    - 05 - Theory - Tokenizers: language_models/03-end_to_end_neural_networks.ipynb
+    - 05 - Practice - Tokenizers, Classification and Visualization: language_models/03-end_to_end_neural_networks.ipynb
     - 06 - Theory - Self-Attention and Self-Supervised Training: language_models/04-self_attention.ipynb
     - 07 - Case Study - Pre-trained BERT: language_models/06-pretrained_bert.ipynb
     - 08 - Practice - Fine-tuning BERT: language_models/07-finetuning_bert.ipynb

@@ -24,6 +24,7 @@ dependencies = [
     "python-markdown-math>=0.9",
     "rich>=14.0.0",
     "scikit-learn>=1.7.1",
+    "sentencepiece>=0.2.1",
     "torch>=2.7.1",
     "tqdm>=4.67.1",
     "transformers>=4.53.3",
