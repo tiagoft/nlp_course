@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html data-bs-theme="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="None" name="description"/>
+<link href="img/favicon.ico" rel="shortcut icon"/>
+<title>Natural Language Processing - 2025s2</title>
+<link href="css/bootstrap.min.css" rel="stylesheet"/>
+<link href="css/fontawesome.min.css" rel="stylesheet"/>
+<link href="css/brands.min.css" rel="stylesheet"/>
+<link href="css/solid.min.css" rel="stylesheet"/>
+<link href="css/v4-font-face.min.css" rel="stylesheet"/>
+<link href="css/base.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" id="hljs-light" rel="stylesheet"/>
+<link disabled="" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" id="hljs-dark" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+</head>
+<body class="homepage">
+<div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+<div class="container">
+<a class="navbar-brand" href=".">Natural Language Processing - 2025s2</a>
+<!-- Expander button -->
+<button aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbar-collapse" data-bs-toggle="collapse" type="button">
+<span class="navbar-toggler-icon"></span>
+</button>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse" id="navbar-collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li class="nav-item">
+<a aria-current="page" class="nav-link active" href=".">Home</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="final_project/">Final Project</a>
+</li>
+<li class="nav-item dropdown">
+<a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">Text Classification</a>
+<ul class="dropdown-menu">
+<li>
+<a class="dropdown-item" href="text_classification/00-regex/">00 - Review - Regular expressions</a>
+</li>
+<li>
+<a class="dropdown-item" href="text_classification/01-handcrafted/">01 - Practice - Sentiment Analysis with ANEW</a>
+</li>
+<li>
+<a class="dropdown-item" href="text_classification/02-math_of_lr/">02 - Theory - Math of Logistic Regression</a>
+</li>
+<li>
+<a class="dropdown-item" href="text_classification/02a-toy_problem/">02a - Theory - Supplementary Material</a>
+</li>
+<li>
+<a class="dropdown-item" href="text_classification/03-case_study_sentiment/">03 - Case Study - Classification on IMDB</a>
+</li>
+<li>
+<a class="dropdown-item" href="text_classification/04-studio-cross-dataset/">04 - Practice - Cross-dataset Classification</a>
+</li>
+<li>
+<a class="dropdown-item" href="text_classification/05-detecting_fake_news/">05 - Practice - Detecting Fake News</a>
+</li>
+</ul>
+</li>
+<li class="nav-item dropdown">
+<a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">Language Models</a>
+<ul class="dropdown-menu">
+<li>
+<a class="dropdown-item" href="language_models/00-language_models_ngrams/">00 - Theory - Language Models</a>
+</li>
+<li>
+<a class="dropdown-item" href="language_models/00a-solutions/">00a - Solution for exercises in 00</a>
+</li>
+<li>
+<a class="dropdown-item" href="language_models/01-case_study_bullshit/">01 - Case Study - Language Models</a>
+</li>
+<li>
+<a class="dropdown-item" href="language_models/02-from_sklearn_to_pytorch/">02 - Theory - From Sklearn to Pytorch</a>
+</li>
+<li>
+<a class="dropdown-item" href="language_models/05-mlp/">03 - Theory - MLP, Residuals, Normalization</a>
+</li>
+<li>
+<a class="dropdown-item" href="language_models/03-end_to_end_neural_networks/">05 - Practice - Tokenizers, Classification and Visualization</a>
+</li>
+<li>
+<a class="dropdown-item" href="language_models/04-self_attention/">06 - Theory - Self-Attention and Self-Supervised Training</a>
+</li>
+<li>
+<a class="dropdown-item" href="language_models/06-pretrained_bert/">07 - Case Study - Pre-trained BERT</a>
+</li>
+<li>
+<a class="dropdown-item" href="language_models/07-finetuning_bert/">08 - Practice - Fine-tuning BERT</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav ms-md-auto">
+<li class="nav-item">
+<a class="nav-link" data-bs-target="#mkdocs_search_modal" data-bs-toggle="modal" href="#">
+<i class="fa fa-search"></i> Search
+                            </a>
+</li>
+<li class="nav-item">
+<a class="nav-link disabled" rel="prev">
+<i class="fa fa-arrow-left"></i> Previous
+                                </a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="final_project/" rel="next">
+                                    Next <i class="fa fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="row">
+<div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+<div class="navbar-header">
+<button class="navbar-toggler collapsed" data-bs-target="#toc-collapse" data-bs-toggle="collapse" title="Table of Contents" type="button">
+<span class="fa fa-angle-down"></span>
+</button>
+</div>
+<div class="navbar-collapse collapse card bg-body-tertiary" id="toc-collapse">
+<ul class="nav flex-column">
+<li class="nav-item" data-bs-level="1"><a class="nav-link" href="#nlp-2025s2">NLP - 2025s2</a>
+<ul class="nav flex-column">
+<li class="nav-item" data-bs-level="2"><a class="nav-link" href="#office-hours">Office hours</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-bs-level="2"><a class="nav-link" href="#classes">Classes</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-bs-level="2"><a class="nav-link" href="#grades">Grades</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="nlp-2025s2">NLP - 2025s2</h1>
+<p>Instructor: Tiago Tavares -- tiagoft1 [at] insper [dot] edu [dot] br</p>
+<p>Office no. 4, 7th floor, building Q300.</p>
+<h2 id="office-hours">Office hours</h2>
+<p>Thursdays, 13:30-15:00, online (channel: to be defined!)</p>
+<h2 id="classes">Classes</h2>
+<p>We will have </p>
+<ul>
+<li>Theory: when we learn new, theoretical things. These classes will have a lot of whiteboard and only some focused activities.</li>
+<li>Case study: in these classes, students will read a case, and reflect upon that case using a questionnaire. The objective is to discover details of implementations and analyses, as if we were looking at an example.</li>
+<li>Practice: these classes are part of the APSs</li>
+</ul>
+<h2 id="grades">Grades</h2>
+<h3 id="aps">APS</h3>
+<p>They can be done individually, or in groups of 2 or 3 (use Blackboard to set the groups. You do not need to have the same group in any two activities). Grades are based on credit/non-credit. In principle, if you submit the practice within the deadline, you get credit. However, you might be requested to explain details of your implementations during class or during office hours (I will send a message if that is the case). Failing to explain the requested details will result in changing the grade to non-credit to <em>all</em> members of the group, as this is evidence of failure of the related learning process.</p>
+<h3 id="written-exams">Written exams</h3>
+<p>We will have two written exams. They will be scheduled outside the official Insper test weeks. The exams will consist of case studies related to the APSs and the coursework. They are individual, on paper, without access to books, computers, or any other electronic devices.</p>
+<h3 id="final-project">Final project</h3>
+<p>At the end of the course, we will have a final project with a free theme. We will discuss more details on this later.</p>
+<h3 id="grade-calculation">Grade calculation</h3>
+<p>The final grades will be calculated as:</p>
+<ul>
+<li><span><span class="MathJax_Preview">$E_1 \rightarrow$</span><script type="math/tex">E_1 \rightarrow</script></span> The first exam</li>
+<li><span><span class="MathJax_Preview">$E_2 \rightarrow$</span><script type="math/tex">E_2 \rightarrow</script></span> The second exam</li>
+<li><span><span class="MathJax_Preview">$P \rightarrow$</span><script type="math/tex">P \rightarrow</script></span> <span><span class="MathJax_Preview">$10 \times$</span><script type="math/tex">10 \times</script></span> the fraction of APS exercises with credit</li>
+<li><span><span class="MathJax_Preview">$F \rightarrow$</span><script type="math/tex">F \rightarrow</script></span> The final project</li>
+</ul>
+<p>Final grade:</p>
+<p>
+<div><span class="MathJax_Preview">$$
+G = \frac{2 E_1 + 3 E_2 + 2 P + 3F}{10}
+$$</span><script type="math/tex; mode=display">
+G = \frac{2 E_1 + 3 E_2 + 2 P + 3F}{10}
+</script>
+</div>
+</p></div>
+</div>
+</div>
+<footer class="col-md-12">
+<hr/>
+<p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+</footer>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script>
+            var base_url = ".",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+<script src="js/base.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+<script src="search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+</div>
+<div class="modal-body">
+<p>From here you can search these documents. Enter your search terms below.</p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="search"/>
+</div>
+</form>
+<div data-no-results-text="No results found" id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
+<!--
+MkDocs version : 1.6.1
+Build Date UTC : 2025-10-28 19:43:39.030329+00:00
+-->
