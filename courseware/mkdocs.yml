@@ -4,6 +4,7 @@ site_dir: build
 
 nav:
   - Home: index.md
+  - Final Project: final_project.md
   - Text Classification:
     - 00 - Review - Regular expressions: text_classification/00-regex.ipynb
     - 01 - Practice - Sentiment Analysis with ANEW: text_classification/01-handcrafted.md
