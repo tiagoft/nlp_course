@@ -17,6 +17,7 @@ dependencies = [
     "mkdocs>=1.6.1",
     "mkdocs-jupyter>=0.25.1",
     "mkdocs-mermaid2-plugin>=1.2.1",
+    "mknotebooks>=0.8.0",
     "nltk>=3.9.1",
     "pandas>=2.3.1",
     "pymdown-extensions>=10.16.1",
