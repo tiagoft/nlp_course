@@ -4,7 +4,8 @@ import torch.nn.functional as F
 import pandas as pd
 from tqdm import tqdm
 import matplotlib.pyplot as plt
-
+import sentencepiece as sp
+from io import StringIO
 
 def get_data(
 ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
@@ -59,6 +60,27 @@ def train(model, X, y, optimizer, loss_fn, n_epochs):
     return model, losses
 
 
+
+def train_sentencepiece(X):
+    input_string = ' '.join(X)
+    input_fp = StringIO(input_string)
+    sp.SentencePieceTrainer.train(
+        sentence_iterator = input_fp,
+        model_prefix='my_tokenizer',
+        vocab_size=15,
+    )
+    
+def tokenize_sentences(X : list[str]):
+    tokenizer = sp.SentencePieceProcessor()
+    tokenizer.load('my_tokenizer.model')
+    # Load the trained SentencePiece model
+
+    x_ids = []
+    for xstr in X:
+        encoded_ids = tokenizer.encode_as_ids(xstr)
+        x_ids.append(encoded_ids)
+
+    return x_ids
 class MyModel(nn.Module):
 
     def __init__(
@@ -115,4 +137,8 @@ def run():
     print(embeddings_finais)
 
 if __name__ == "__main__":
-    run()
+    X = ['esse é meu texto', 'esse é outro texto', 'etc, etc, etc']
+    tokens = tokenize_sentences(X)
+    print(tokens )
+    
+    #run()
