@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+
+<html data-bs-theme="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>05 - Practice - Detecting Fake News - Natural Language Processing - 2025s2</title>
+<link href="../../css/bootstrap.min.css" rel="stylesheet"/>
+<link href="../../css/fontawesome.min.css" rel="stylesheet"/>
+<link href="../../css/brands.min.css" rel="stylesheet"/>
+<link href="../../css/solid.min.css" rel="stylesheet"/>
+<link href="../../css/v4-font-face.min.css" rel="stylesheet"/>
+<link href="../../css/base.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" id="hljs-light" rel="stylesheet"/>
+<link disabled="" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" id="hljs-dark" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+</head>
+<body>
+<div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+<div class="container">
+<a class="navbar-brand" href="../..">Natural Language Processing - 2025s2</a>
+<!-- Expander button -->
+<button aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbar-collapse" data-bs-toggle="collapse" type="button">
+<span class="navbar-toggler-icon"></span>
+</button>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse" id="navbar-collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li class="nav-item">
+<a class="nav-link" href="../..">Home</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="../../final_project/">Final Project</a>
+</li>
+<li class="nav-item dropdown">
+<a aria-current="page" aria-expanded="false" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown" href="#" role="button">Text Classification</a>
+<ul class="dropdown-menu">
+<li>
+<a class="dropdown-item" href="../00-regex/">00 - Review - Regular expressions</a>
+</li>
+<li>
+<a class="dropdown-item" href="../01-handcrafted/">01 - Practice - Sentiment Analysis with ANEW</a>
+</li>
+<li>
+<a class="dropdown-item" href="../02-math_of_lr/">02 - Theory - Math of Logistic Regression</a>
+</li>
+<li>
+<a class="dropdown-item" href="../02a-toy_problem/">02a - Theory - Supplementary Material</a>
+</li>
+<li>
+<a class="dropdown-item" href="../03-case_study_sentiment/">03 - Case Study - Classification on IMDB</a>
+</li>
+<li>
+<a class="dropdown-item" href="../04-studio-cross-dataset/">04 - Practice - Cross-dataset Classification</a>
+</li>
+<li>
+<a aria-current="page" class="dropdown-item active" href="./">05 - Practice - Detecting Fake News</a>
+</li>
+</ul>
+</li>
+<li class="nav-item dropdown">
+<a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">Language Models</a>
+<ul class="dropdown-menu">
+<li>
+<a class="dropdown-item" href="../../language_models/00-language_models_ngrams/">00 - Theory - Language Models</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../language_models/00a-solutions/">00a - Solution for exercises in 00</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../language_models/01-case_study_bullshit/">01 - Case Study - Language Models</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../language_models/02-from_sklearn_to_pytorch/">02 - Theory - From Sklearn to Pytorch</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../language_models/05-mlp/">03 - Theory - MLP, Residuals, Normalization</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../language_models/03-end_to_end_neural_networks/">05 - Practice - Tokenizers, Classification and Visualization</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../language_models/04-self_attention/">06 - Theory - Self-Attention and Self-Supervised Training</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../language_models/06-pretrained_bert/">07 - Case Study - Pre-trained BERT</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../language_models/07-finetuning_bert/">08 - Practice - Fine-tuning BERT</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav ms-md-auto">
+<li class="nav-item">
+<a class="nav-link" data-bs-target="#mkdocs_search_modal" data-bs-toggle="modal" href="#">
+<i class="fa fa-search"></i> Search
+                            </a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="../04-studio-cross-dataset/" rel="prev">
+<i class="fa fa-arrow-left"></i> Previous
+                                </a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="../../language_models/00-language_models_ngrams/" rel="next">
+                                    Next <i class="fa fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="row">
+<div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+<div class="navbar-header">
+<button class="navbar-toggler collapsed" data-bs-target="#toc-collapse" data-bs-toggle="collapse" title="Table of Contents" type="button">
+<span class="fa fa-angle-down"></span>
+</button>
+</div>
+<div class="navbar-collapse collapse card bg-body-tertiary" id="toc-collapse">
+<ul class="nav flex-column">
+<li class="nav-item" data-bs-level="1"><a class="nav-link" href="#how-much-data-do-we-need-a-study-on-detecting-fake-news-with-machine-learning">How much data do we need? A study on detecting Fake News with Machine Learning</a>
+<ul class="nav flex-column">
+<li class="nav-item" data-bs-level="2"><a class="nav-link" href="#single-dataset-results">Single dataset results</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-bs-level="2"><a class="nav-link" href="#cross-dataset-study">Cross-dataset study</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-bs-level="2"><a class="nav-link" href="#keep-going">Keep going</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="how-much-data-do-we-need-a-study-on-detecting-fake-news-with-machine-learning">How much data do we need? A study on detecting Fake News with Machine Learning</h1>
+<p>One amazing feat we have today is that there are so many datasets available online. There are also many hubs for data, like Kaggle or HuggingFace.</p>
+<p>One important problem we've had in the last few years is the propagation of fake news - which are statements that range from being outright lies, to convenient interpretations of the facts, to naive replications of common sense.</p>
+<p>Well, fortunately, we have many datasets online containing news labeled as either fake or true. But: is it feasible to use Machine Learning to detect fake news?</p>
+<h2 id="single-dataset-results">Single dataset results</h2>
+<p>Start by downloading a fake news dataset. Run the usual train-test pipeline and check the accuracy you could classify fake news from non-fake news. Is this accuracy enough to use your system as a filter for fake news in a social media portal?</p>
+<h2 id="cross-dataset-study">Cross-dataset study</h2>
+<p>Now, download <em>another</em> two fake news datasets. First, run the train-test pipeline evaluation in each one of them. After that, proceed to a more interesting experiment:</p>
+<ul>
+<li><em>train</em> a classification pipeline in one dataset</li>
+<li><em>test</em> the pipeline in <em>another</em> dataset</li>
+</ul>
+<p>Do this for all dataset combinations you have. What happens to the results?</p>
+<p>Do you believe fake news detection with a classifier like ours is reliable?</p>
+<h2 id="keep-going">Keep going</h2>
+<p>Find how much each word contributes to the overall classification. Are these words the same in each dataset?</p>
+<p>Reflect: </p>
+<ul>
+<li>Why is this happening? </li>
+<li>Do these results indicate that our detector is reliable?</li>
+<li>Is it feasible to detect fake news using a Bag-of-Words classifier?</li>
+</ul></div>
+</div>
+</div>
+<footer class="col-md-12">
+<hr/>
+<p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+</footer>
+<script src="../../js/bootstrap.bundle.min.js"></script>
+<script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+<script src="../../js/base.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+</div>
+<div class="modal-body">
+<p>From here you can search these documents. Enter your search terms below.</p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="search"/>
+</div>
+</form>
+<div data-no-results-text="No results found" id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
