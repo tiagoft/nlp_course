@@ -1,12 +1,14 @@
-# NLP - 2025s2
+# NLP - 2026s2
+
+Mon/Wed 12:00-14:00. Check locations on app!
 
 Instructor: Tiago Tavares -- tiagoft1 [at] insper [dot] edu [dot] br
 
-Office no. 4, 7th floor, building Q300.
+Office no. 722, 7th floor, building Q300.
 
 ## Office hours
 
-Thursdays, 13:30-15:00, online (channel: to be defined!)
+Mondays, 9:00-10:30, online via Teams
 
 ## Classes
 
