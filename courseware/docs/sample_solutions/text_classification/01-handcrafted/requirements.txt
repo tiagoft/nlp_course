@@ -1,0 +1,7 @@
+# The app.
+streamlit>=1.32
+pandas>=2.0
+matplotlib>=3.7
+
+# reddit_search.py and anew_sentiment.py need nothing but the standard library,
+# so you can copy those two files into any project as they are.
