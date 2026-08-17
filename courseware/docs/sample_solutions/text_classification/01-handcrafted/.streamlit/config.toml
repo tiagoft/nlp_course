@@ -1,0 +1,8 @@
+# Picked up when you run `streamlit run app.py` from this folder.
+# The charts paint their own surface to match this setting -- flip base to
+# "dark" and they follow.
+[theme]
+base = "light"
+
+[browser]
+gatherUsageStats = false
