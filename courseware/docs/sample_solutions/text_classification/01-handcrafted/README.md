@@ -84,5 +84,31 @@ r/Brazil returns plenty of hits for *messi*, but only 20% put it in the title.
 
 `data/fallback.json` holds real captured responses, shown only when a live
 request fails, matched to the keyword they were captured for, and always
-labelled on screen. A separate liveness check runs on every page load, so a
-cached result can't pass for a live one. Refresh with `python snapshot.py`.
+labelled on screen. Refresh with `python snapshot.py`.
+
+## Saying up front whether it will work
+
+Reddit refuses requests one at a time, so before running the grid the app
+sends one throwaway probe and reports what it means:
+
+- **Pre-flight OK** — a probe got through, so the searches probably will too.
+- **Pre-flight failed** — expect the grid to fail and fall back to snapshots.
+
+The probe only predicts if it costs Reddit what the real searches cost, so it
+carries the **same limit, sort and time window the user chose**, through the
+**same client** — the same throttle and the same retry policy. An earlier
+version asked for 5 posts sorted by `new` regardless of the settings, and a
+cheap request like that is served while a 25-post `relevance` search is still
+being refused: the banner read *Live Reddit access OK* above a page of 500s.
+
+A probe is one request, though, not a promise, so each subreddit × keyword
+search also reports itself as it lands — `live`, `empty` or `failed` — and the
+totals below the fold say how the grid actually went. `SearchResult` in
+`scraper.py` is what carries that per-search verdict; `search_result()` is
+`search()` without the raise, for callers that would rather report a failure
+than stop at it.
+
+One outcome is deliberately not treated as data: a feed that comes back empty
+every time we ask. Reddit sends an empty feed both when nothing matched and
+when it is soft-blocking, and the two are identical from here, so those cells
+fall back to the snapshot too rather than being drawn as a genuine zero.

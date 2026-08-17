@@ -10,11 +10,16 @@ import streamlit as st
 
 import snapshot
 from charts import anew_heatmap, featuring_heatmap, opinion_heatmap, to_img_tag
-from scraper import RedditClient, RedditPost, health_check, search_subreddits
+from scraper import RedditClient, RedditPost, SearchResult, health_check
 from sentiment import NEUTRAL, AnewMissing, analyse, describe, load_anew
 
 DEFAULT_KEYWORDS: list[str] = ["neymar", "messi"]
 DEFAULT_SUBREDDITS: list[str] = ["Barca", "psg", "Brazil"]
+
+# One TTL for the probe and the searches, so the banner at the top can never
+# describe a different moment in time than the results underneath it.
+SEARCH_TTL = 300
+STATUS_ICON = {"live": "✅", "empty": "⚠️", "failed": "🚨"}
 
 st.set_page_config(page_title="Subreddit sentiment about a word", page_icon="📊", layout="wide")
 
@@ -45,31 +50,36 @@ def get_anew() -> dict[str, float]:
     return load_anew()
 
 
-@st.cache_data(ttl=60, show_spinner=False)
-def check_reddit() -> tuple[bool, str]:
-    """Liveness probe, independent of whatever the user searched for."""
-    return health_check(client=RedditClient(max_retries=2, backoff=1.0, timeout=10))
+@st.cache_data(ttl=SEARCH_TTL, show_spinner=False)
+def probe_reddit(limit: int, sort: str, window: str) -> SearchResult:
+    """Will a search of this size work right now? Sent before we run the real ones.
+
+    It carries the user's own limit/sort/window and goes through the shared
+    client, so it costs Reddit exactly what the searches behind it cost. The
+    old probe asked for 5 posts sorted by "new" no matter what the user had
+    chosen, which is a cheaper request than a 25-post "relevance" search --
+    that is how it could report OK while every search below it got a 500.
+    """
+    return health_check(client=get_client(), limit=limit, sort=sort, time_filter=window)
 
 
-@st.cache_data(ttl=300, show_spinner=False)
-def run_search(
-    keywords: tuple[str, ...], subreddits: tuple[str, ...], limit: int, sort: str, window: str
-):
-    """Every keyword across every subreddit, keyed [keyword][subreddit].
+@st.cache_data(ttl=SEARCH_TTL, show_spinner=False)
+def search_cell(keyword: str, subreddit: str, limit: int, sort: str, window: str) -> dict:
+    """One subreddit x keyword search, cached on its own so it can be reported
+    the moment it lands rather than after the whole grid finishes.
 
     Returns plain dicts, which is what Streamlit can cache.
     """
-    posts: dict[str, dict[str, list[dict]]] = {}
-    errors: dict[str, dict[str, str]] = {}
-    for keyword in keywords:
-        found, failed = search_subreddits(
-            keyword, list(subreddits), limit=limit, sort=sort, time_filter=window,
-            client=get_client(),
-        )
-        posts[keyword] = {sub: [p.to_dict() for p in items] for sub, items in found.items()}
-        if failed:
-            errors[keyword] = failed
-    return posts, errors
+    result = get_client().search_result(
+        subreddit, keyword, limit=limit, sort=sort, time_filter=window
+    )
+    return {
+        "posts": [post.to_dict() for post in result.posts],
+        "status": result.status,
+        "error": result.error,
+        "suspect_empty": result.suspect_empty,
+        "summary": result.summary(),
+    }
 
 
 # --- Inputs ---
@@ -106,20 +116,11 @@ st.caption(
     "ANEW pleasure norms. Higher is more pleasant; 50 is neutral."
 )
 
-# --- 1. Is Reddit actually reachable right now? ---
+# --- 1. Before searching: will a search this size work right now? ---
 
 if refresh:
-    run_search.clear()
-    check_reddit.clear()
-
-live_ok, live_message = check_reddit()
-if live_ok:
-    st.success(live_message, icon="✅")
-else:
-    st.error(
-        f"{live_message}\n\nAnything below is cached or a saved snapshot, **not** live data.",
-        icon="🚨",
-    )
+    search_cell.clear()
+    probe_reddit.clear()
 
 if not keywords:
     st.warning("Enter at least one keyword in the sidebar.")
@@ -134,10 +135,56 @@ except AnewMissing as exc:
     st.error(f"Could not load the ANEW dictionary: {exc}")
     st.stop()
 
-# --- 2. Search, falling back to the saved snapshot only where a search failed ---
+cells_total = len(keywords) * len(subreddits)
+shape = f"sorted by {sort}, {limit} posts, window {window}"
 
-with st.spinner(f"Searching {len(subreddits)} subreddit(s) for {len(keywords)} keyword(s)..."):
-    raw_posts, errors = run_search(tuple(keywords), tuple(subreddits), limit, sort, window)
+with st.spinner(f"Checking whether Reddit will answer a search this size ({shape})..."):
+    probe = probe_reddit(limit, sort, window)
+
+if probe.ok:
+    st.success(
+        f"**Pre-flight OK** — a throwaway probe with your exact settings ({shape}) came "
+        f"back with {len(probe.posts)} posts, so the {cells_total} searches below should "
+        "work. One probe is evidence, not a promise: Reddit refuses request by request, "
+        "so individual subreddits can still fail. Each is reported live as it lands.",
+        icon="✅",
+    )
+elif probe.status == "empty":
+    st.warning(
+        f"**Pre-flight unclear** — Reddit answered the probe ({shape}) but sent an empty "
+        "feed, which is what a soft block looks like from here. The searches below may "
+        "come back empty for the same reason rather than because nothing matched.",
+        icon="⚠️",
+    )
+else:
+    st.error(
+        f"**Pre-flight failed** — Reddit refused a probe with your exact settings "
+        f"({shape}): {probe.error}\n\nExpect the {cells_total} searches below to fail the "
+        "same way and fall back to the saved snapshot. Lowering **Posts per subreddit** "
+        "is the setting most likely to get through: a cheap request is served when an "
+        "expensive one is refused.",
+        icon="🚨",
+    )
+
+# --- 2. Search, reporting each cell as it lands ---
+
+outcomes: dict[tuple[str, str], dict] = {}
+with st.status(f"Searching {cells_total} subreddit × keyword pair(s)...", expanded=True) as box:
+    for keyword in keywords:
+        for sub in subreddits:
+            cell = search_cell(keyword, sub, limit, sort, window)
+            outcomes[(sub, keyword)] = cell
+            st.write(f"{STATUS_ICON[cell['status']]} {cell['summary']}")
+    live_count = sum(1 for cell in outcomes.values() if cell["status"] == "live")
+    # Collapsed once it is done either way: the per-cell lines are the detail
+    # behind the banners below, and left open they bury the results in URLs.
+    box.update(
+        label=f"{live_count}/{cells_total} searches came back live",
+        state="complete" if live_count == cells_total else "error",
+        expanded=False,
+    )
+
+# --- 3. Fall back to the snapshot where the live data did not arrive ---
 
 saved = snapshot.load()
 posts_by_cell: dict[tuple[str, str], list[RedditPost]] = {}
@@ -146,26 +193,33 @@ missing: list[str] = []
 
 for keyword in keywords:
     for sub in subreddits:
-        live = (raw_posts.get(keyword) or {}).get(sub)
-        # Only consulted when this cell's live search failed, and it returns
-        # None unless the snapshot holds this exact keyword.
-        fallback = None if live is not None else snapshot.posts_for(saved, keyword, sub)
-        source = live if live is not None else fallback
+        cell = outcomes[(sub, keyword)]
+        live = cell["posts"]
+        # A feed that stayed empty across every retry is as likely a soft block
+        # as a genuine absence of posts, so it gets the snapshot too. Only
+        # consulted for this exact keyword, so a "neymar" capture can never
+        # stand in for a "messi" search.
+        fallback = (
+            snapshot.posts_for(saved, keyword, sub)
+            if cell["status"] == "failed" or cell["suspect_empty"]
+            else None
+        )
+        source = live or fallback
         if not source:
             missing.append(f"r/{sub}/{keyword}")
             continue
         posts_by_cell[(sub, keyword)] = [RedditPost.from_dict(p) for p in source]
-        if fallback:
+        if not live and fallback:
             from_snapshot.append((sub, keyword))
 
-if errors:
+failed = [(sub, kw) for (sub, kw), cell in outcomes.items() if cell["status"] == "failed"]
+if failed:
     st.error(
         "Live search failed for: "
-        + "; ".join(
-            f"**r/{sub}** / *{keyword}* ({why})"
-            for keyword, failed in errors.items()
-            for sub, why in failed.items()
-        ),
+        + "; ".join(f"**r/{sub}** / *{keyword}*" for sub, keyword in failed)
+        + ("  \nThe pre-flight probe said this would happen." if not probe.ok
+           else "  \nThe pre-flight probe got through, so this is per-subreddit, not a "
+                "general block."),
         icon="🚨",
     )
 if from_snapshot:
@@ -182,13 +236,18 @@ if missing:
 if not posts_by_cell:
     st.stop()
 
-# --- 3. Score every (subreddit, keyword) cell ---
+st.caption(
+    f"{live_count} live · {len(from_snapshot)} snapshot · {len(missing)} unavailable "
+    f"— out of {cells_total} pair(s)."
+)
+
+# --- 4. Score every (subreddit, keyword) cell ---
 
 results = {
     cell: analyse(cell[0], posts, cell[1], anew) for cell, posts in posts_by_cell.items()
 }
 
-# --- 4. Show ---
+# --- 5. Show ---
 
 st.subheader("Results")
 

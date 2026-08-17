@@ -24,12 +24,13 @@ import urllib.error
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Sequence
 
 __all__ = [
     "RedditPost",
+    "SearchResult",
     "RedditClient",
     "RedditError",
     "search_subreddit",
@@ -81,6 +82,53 @@ class RedditPost:
     @classmethod
     def from_dict(cls, data: dict) -> "RedditPost":
         return cls(**{**data, "created_utc": _parse_time(data.get("created_utc"))})
+
+
+@dataclass
+class SearchResult:
+    """One search, and how it went — including the ways it half-worked.
+
+    ``search()`` collapses three outcomes into two: it raises, or it returns a
+    list that may be empty. A caller that wants to *report* what happened needs
+    the third one, so this keeps them apart:
+
+    - ``live``    — posts came back.
+    - ``empty``   — Reddit answered 200 with no entries, every time we asked.
+                    Sometimes genuinely no results, sometimes a soft block; the
+                    feed looks identical either way, hence ``suspect_empty``.
+    - ``failed``  — could not be fetched at all; ``error`` says why.
+    """
+
+    subreddit: str
+    keyword: str
+    posts: list[RedditPost] = field(default_factory=list)
+    error: str = ""
+    empty_attempts: int = 0
+
+    @property
+    def status(self) -> str:
+        if self.error:
+            return "failed"
+        return "live" if self.posts else "empty"
+
+    @property
+    def ok(self) -> bool:
+        return self.status == "live"
+
+    @property
+    def suspect_empty(self) -> bool:
+        """An empty feed we asked for more than once and never got."""
+        return self.status == "empty" and self.empty_attempts > 1
+
+    def summary(self) -> str:
+        """One line saying what happened, for a log or a status area."""
+        where = f"r/{self.subreddit} / {self.keyword!r}"
+        if self.status == "failed":
+            return f"{where}: failed — {self.error}"
+        if self.status == "empty":
+            asked = f" after {self.empty_attempts} tries" if self.empty_attempts > 1 else ""
+            return f"{where}: answered, but the feed was empty{asked}"
+        return f"{where}: {len(self.posts)} posts"
 
 
 class RedditClient:
@@ -162,6 +210,14 @@ class RedditClient:
         time_filter: str = "all",
     ) -> list[RedditPost]:
         """Search one subreddit and return the first page of results."""
+        subreddit, url = self._search_url(subreddit, keyword, limit, sort, time_filter)
+        return self._search(url, subreddit, limit)[0]
+
+    @staticmethod
+    def _search_url(
+        subreddit: str, keyword: str, limit: int, sort: str, time_filter: str
+    ) -> tuple[str, str]:
+        """Validate the arguments and build the feed URL. -> (subreddit, url)"""
         if sort not in SORTS:
             raise ValueError(f"sort must be one of {SORTS}")
         if time_filter not in WINDOWS:
@@ -174,17 +230,51 @@ class RedditClient:
             {"q": keyword, "restrict_sr": "1", "sort": sort, "t": time_filter,
              "limit": max(1, min(int(limit), 100))}
         )
-        url = f"{SEARCH_URL.format(subreddit=urllib.parse.quote(subreddit))}?{query}"
+        return subreddit, f"{SEARCH_URL.format(subreddit=urllib.parse.quote(subreddit))}?{query}"
 
+    def _search(self, url: str, subreddit: str, limit: int) -> tuple[list[RedditPost], int]:
+        """Fetch and parse, returning the posts and how many times we asked.
+
+        The attempt count is returned rather than stored on the client: two
+        Streamlit threads can share one client, and an attribute would race.
+        """
         # An empty feed is usually a soft failure, so retry before believing it.
         posts: list[RedditPost] = []
+        attempts = 0
         for attempt in range(self.empty_retries + 1):
+            attempts = attempt + 1
             posts = parse_search_feed(self.get(url), subreddit)
             if posts:
                 break
             if attempt < self.empty_retries:
                 time.sleep(self.backoff)
-        return posts[:limit]
+        return posts[:limit], attempts
+
+    def search_result(
+        self,
+        subreddit: str,
+        keyword: str,
+        limit: int = 25,
+        sort: str = "relevance",
+        time_filter: str = "all",
+    ) -> SearchResult:
+        """``search()`` without the raise — the failure lands in the result.
+
+        Same request, same throttle, same retries; only the reporting differs.
+        Use this when you want to show the user what happened per search
+        instead of stopping at the first one that breaks.
+        """
+        try:
+            name, url = self._search_url(subreddit, keyword, limit, sort, time_filter)
+            posts, attempts = self._search(url, name, limit)
+        except (RedditError, ValueError) as exc:
+            return SearchResult(subreddit=subreddit, keyword=keyword, error=str(exc))
+        return SearchResult(
+            subreddit=name,
+            keyword=keyword,
+            posts=posts,
+            empty_attempts=0 if posts else attempts,
+        )
 
 
 def parse_search_feed(xml_bytes: bytes, subreddit: str = "") -> list[RedditPost]:
@@ -261,15 +351,24 @@ def search_subreddits(
     return results, errors
 
 
-def health_check(client: RedditClient | None = None) -> tuple[bool, str]:
-    """Probe live access with a throwaway query, unrelated to the user's search."""
-    try:
-        posts = (client or RedditClient()).search("AskReddit", "today", limit=5, sort="new")
-    except (RedditError, ValueError) as exc:
-        return False, f"Live Reddit access failed: {exc}"
-    if not posts:
-        return False, "Reddit answered, but returned no posts for the probe query."
-    return True, f"Live Reddit access OK ({len(posts)} posts from the r/AskReddit probe)."
+def health_check(
+    client: RedditClient | None = None,
+    limit: int = 5,
+    sort: str = "new",
+    time_filter: str = "all",
+) -> SearchResult:
+    """Probe live access with a throwaway query, unrelated to the user's search.
+
+    Pass the ``limit``/``sort``/``time_filter`` you are about to search with,
+    and the same ``client``. The probe is only predictive if it costs Reddit
+    what the real searches cost: a 5-post ``new`` query answers when a 25-post
+    ``relevance`` query is still being refused, so a cheap probe reports a
+    health the searches behind it do not have.
+    """
+    probe = (client or RedditClient()).search_result(
+        "AskReddit", "today", limit=limit, sort=sort, time_filter=time_filter
+    )
+    return probe
 
 
 def _parse_time(value: str | None) -> datetime | None:
@@ -304,9 +403,16 @@ if __name__ == "__main__":
     parser.add_argument("--time", dest="time_filter", default="all", choices=WINDOWS)
     args = parser.parse_args()
 
-    print(health_check()[1])
+    # One client, so the probe and the searches share a throttle -- and the
+    # probe is sent with the same weight as the searches, so it predicts them.
+    client = RedditClient()
+    probe = health_check(
+        client=client, limit=args.limit, sort=args.sort, time_filter=args.time_filter
+    )
+    print(f"probe: {probe.summary()}")
     found, failed = search_subreddits(
-        args.keyword, args.subreddits, args.limit, args.sort, args.time_filter
+        args.keyword, args.subreddits, args.limit, args.sort, args.time_filter,
+        client=client,
     )
     for name, posts in found.items():
         print(f"\nr/{name}: {len(posts)} posts about {args.keyword!r}")
