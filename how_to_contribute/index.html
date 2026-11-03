@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+
+<html data-bs-theme="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="../img/favicon.ico" rel="shortcut icon"/>
+<title>How to contribute - Natural Language Processing</title>
+<link href="../css/bootstrap.min.css" rel="stylesheet"/>
+<link href="../css/fontawesome.min.css" rel="stylesheet"/>
+<link href="../css/brands.min.css" rel="stylesheet"/>
+<link href="../css/solid.min.css" rel="stylesheet"/>
+<link href="../css/v4-font-face.min.css" rel="stylesheet"/>
+<link href="../css/base.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" id="hljs-light" rel="stylesheet"/>
+<link disabled="" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" id="hljs-dark" rel="stylesheet"/>
+<link href="../extra/presentation/presentation.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+</head>
+<body>
+<div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+<div class="container">
+<a class="navbar-brand" href="..">Natural Language Processing</a>
+<!-- Expander button -->
+<button aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbar-collapse" data-bs-toggle="collapse" type="button">
+<span class="navbar-toggler-icon"></span>
+</button>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse" id="navbar-collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li class="nav-item">
+<a class="nav-link" href="..">Home</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="../final_project/">Final Project</a>
+</li>
+<li class="nav-item dropdown">
+<a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">Text Classification</a>
+<ul class="dropdown-menu">
+<li>
+<a class="dropdown-item" href="../text_classification/00-regex/">00 - Review - Regular expressions</a>
+</li>
+<li>
+<a class="dropdown-item" href="../text_classification/01-handcrafted/">01 - Practice - Sentiment Analysis with ANEW</a>
+</li>
+<li>
+<a class="dropdown-item" href="../text_classification/02-math_of_lr/">02 - Theory - Math of Logistic Regression</a>
+</li>
+<li>
+<a class="dropdown-item" href="../text_classification/02a-toy_problem/">02a - Theory - Supplementary Material</a>
+</li>
+<li>
+<a class="dropdown-item" href="../text_classification/03-case_study_sentiment/">03 - Case Study - Classification on IMDB</a>
+</li>
+<li>
+<a class="dropdown-item" href="../text_classification/04-studio-cross-dataset/">04 - Practice - Cross-dataset Classification</a>
+</li>
+<li>
+<a class="dropdown-item" href="../text_classification/05-detecting_fake_news/">05 - Practice - Detecting Fake News</a>
+</li>
+</ul>
+</li>
+<li class="nav-item dropdown">
+<a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">Language Models</a>
+<ul class="dropdown-menu">
+<li>
+<a class="dropdown-item" href="../language_models/00-language_models_ngrams/">00 - Theory - Language Models</a>
+</li>
+<li>
+<a class="dropdown-item" href="../language_models/00a-solutions/">00a - Solution for exercises in 00</a>
+</li>
+<li>
+<a class="dropdown-item" href="../language_models/01-case_study_bullshit/">01 - Case Study - Language Models</a>
+</li>
+<li>
+<a class="dropdown-item" href="../language_models/02-from_sklearn_to_pytorch/">02 - Theory - From Sklearn to Pytorch</a>
+</li>
+<li>
+<a class="dropdown-item" href="../language_models/05-mlp/">03 - Theory - MLP, Residuals, Normalization</a>
+</li>
+<li>
+<a class="dropdown-item" href="../language_models/03-end_to_end_neural_networks/">05 - Practice - Tokenizers, Classification and Visualization</a>
+</li>
+<li>
+<a class="dropdown-item" href="../language_models/04-self_attention/">06 - Theory - Self-Attention and Self-Supervised Training</a>
+</li>
+<li>
+<a class="dropdown-item" href="../language_models/06-pretrained_bert/">07 - Case Study - Pre-trained BERT</a>
+</li>
+<li>
+<a class="dropdown-item" href="../language_models/07-finetuning_bert/">08 - Practice - Fine-tuning BERT</a>
+</li>
+</ul>
+</li>
+<li class="nav-item">
+<a aria-current="page" class="nav-link active" href="./">How to contribute</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="../contributions/">Contributions</a>
+</li>
+</ul>
+<ul class="nav navbar-nav ms-md-auto">
+<li class="nav-item">
+<a class="nav-link" data-bs-target="#mkdocs_search_modal" data-bs-toggle="modal" href="#">
+<i class="fa fa-search"></i> Search
+                            </a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="../language_models/07-finetuning_bert/" rel="prev">
+<i class="fa fa-arrow-left"></i> Previous
+                                </a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="../contributions/" rel="next">
+                                    Next <i class="fa fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="row">
+<div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+<div class="navbar-header">
+<button class="navbar-toggler collapsed" data-bs-target="#toc-collapse" data-bs-toggle="collapse" title="Table of Contents" type="button">
+<span class="fa fa-angle-down"></span>
+</button>
+</div>
+<div class="navbar-collapse collapse card bg-body-tertiary" id="toc-collapse">
+<ul class="nav flex-column">
+<li class="nav-item" data-bs-level="1"><a class="nav-link" href="#how-to-contribute">How to contribute</a>
+<ul class="nav flex-column">
+<li class="nav-item" data-bs-level="2"><a class="nav-link" href="#the-rules-in-short">The rules, in short</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-bs-level="2"><a class="nav-link" href="#animations">Animations</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-bs-level="2"><a class="nav-link" href="#step-by-step-with-an-agent">Step by step with an agent</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-bs-level="2"><a class="nav-link" href="#without-an-agent">Without an agent</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="how-to-contribute">How to contribute</h1>
+<p>This material accepts contributions, and yours is very welcome! You can contribute <strong>content</strong> (fixes, examples, demonstrations, exercises you wrote) or <strong>features</strong> (applets, accessibility, animations). Mathematical animations use the <a href="https://www.manim.community/">Manim</a> library.</p>
+<p>The simplest way to contribute is with a coding agent, such as <a href="https://claude.com/claude-code">Claude Code</a> or <a href="https://openai.com/codex/">Codex</a>. The repository has an <code>AGENTS.md</code> file with the contribution rules: the agent forks the repository, applies your change, checks that it follows the course conventions, and opens the pull request for you.</p>
+<h2 id="the-rules-in-short">The rules, in short</h2>
+<ul>
+<li><strong>Your text, your justification.</strong> The agent does not write educational content for you: it formats, positions, and checks the text that <em>you</em> wrote. The pull request justification must also be yours, and specific ("aspect X was ambiguous", not "I improved the text").</li>
+<li><strong>Nothing from the future.</strong> A contribution may only use concepts that appear before it in the course sequence (the order of this website's menu).</li>
+<li><strong>Notation.</strong> Scalars in lowercase (<span><span class="MathJax_Preview">$x$</span><script type="math/tex">x</script></span>), constants in uppercase (<span><span class="MathJax_Preview">$N$</span><script type="math/tex">N</script></span>), vectors in bold lowercase (<span><span class="MathJax_Preview">$\boldsymbol{x}$</span><script type="math/tex">\boldsymbol{x}</script></span>), and matrices in bold uppercase (<span><span class="MathJax_Preview">$\boldsymbol{A}$</span><script type="math/tex">\boldsymbol{A}</script></span>).</li>
+</ul>
+<p>The complete rules are in <a href="https://github.com/tiagoft/nlp_course/blob/main/AGENTS.md">AGENTS.md</a>.</p>
+<h2 id="animations">Animations</h2>
+<p>Mathematical <strong>animations</strong> are made with the <a href="https://www.manim.community/">Manim</a> library. The code goes in the <code>manim/</code> folder and the GIF goes next to the page that displays it.</p>
+<h2 id="step-by-step-with-an-agent">Step by step with an agent</h2>
+<h3 id="1-set-up-your-environment-only-once">1. Set up your environment (only once)</h3>
+<p>You will need:</p>
+<ul>
+<li>a <a href="https://github.com">GitHub</a> account;</li>
+<li><a href="https://git-scm.com/">git</a> and the <a href="https://cli.github.com/">GitHub CLI</a> (<code>gh</code>) installed;</li>
+<li><a href="https://claude.com/claude-code">Claude Code</a> or <a href="https://openai.com/codex/">Codex</a> installed.</li>
+</ul>
+<p>Then log in to GitHub from the terminal:</p>
+<pre><code>gh auth login
+</code></pre>
+<h3 id="2-fork-the-repository-and-open-the-agent">2. Fork the repository and open the agent</h3>
+<pre><code>gh repo fork tiagoft/nlp_course --clone
+cd nlp_course
+</code></pre>
+<p>and then start the agent inside the folder:</p>
+<pre><code>claude
+</code></pre>
+<p>or</p>
+<pre><code>codex
+</code></pre>
+<h3 id="3-describe-your-contribution">3. Describe your contribution</h3>
+<p>Tell the agent what you want to contribute, <strong>where</strong> in the material, <strong>your text</strong> (for content contributions), and <strong>your justification</strong>. For example:</p>
+<pre><code>I want to contribute to the material.
+Type: content.
+Where: in text_classification/02-math_of_lr.md, right after the definition of logistic regression.
+My text: "Note that the output of the sigmoid is always between 0 and 1, so it can be
+read as the probability that the text belongs to the positive class, because ..."
+Justification: I missed seeing why we can interpret the output of logistic regression
+as a probability right at the definition.
+</code></pre>
+<p>or, for a feature:</p>
+<pre><code>I want to contribute a feature.
+What it is: an applet that shows how the logistic regression output changes as I drag the weights with the mouse.
+Where: on the Math of Logistic Regression page.
+Justification: I only understood the role of the weights when I computed several cases by hand;
+an applet would make this faster to explore.
+</code></pre>
+<p>The agent may ask questions, suggest formatting or position adjustments, or point out that some concept has not been covered yet at that point in the course. Answer and adjust together with it.</p>
+<h3 id="4-review-and-open-the-pull-request">4. Review and open the pull request</h3>
+<p>Before authorizing the pull request, read the change the agent made. When everything looks right, ask the agent to open the pull request: it will use the repository's template, with your justification and the list of course content used.</p>
+<p>After the pull request is accepted, your name appears on the <a href="../contributions/">Contributions</a> page!</p>
+<h2 id="without-an-agent">Without an agent</h2>
+<p>You can also contribute without an agent: fork the repository on GitHub, create a branch, make your changes, and open the pull request filling in the template. The same rules apply.</p></div>
+</div>
+</div>
+<footer class="col-md-12">
+<hr/>
+<p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+</footer>
+<script src="../js/bootstrap.bundle.min.js"></script>
+<script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+<script src="../js/base.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+<script src="../extra/presentation/presentation.js"></script>
+<script src="../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+</div>
+<div class="modal-body">
+<p>From here you can search these documents. Enter your search terms below.</p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="search"/>
+</div>
+</form>
+<div data-no-results-text="No results found" id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script data-mkdocs-jupyter-mathjax="{&quot;url&quot;: &quot;https://cdn.jsdelivr.net/npm/mathjax@4.1.3/tex-mml-chtml.js&quot;, &quot;version&quot;: 4}">
+/* Shared by full pages and Material's instant navigation. */
+(() => {
+  const config = JSON.parse(document.currentScript.dataset.mkdocsJupyterMathjax);
+  if (window.mkdocsJupyterMathJax) return;
+
+  let loading;
+  let queue = Promise.resolve();
+  let previous = [];
+
+  const ready = async () => {
+    if (!loading) {
+      loading = (async () => {
+        let math = window.MathJax;
+        if (!math?.typesetPromise) {
+          const url = new URL(config.url, document.baseURI).href;
+          const existing = Array.from(document.scripts).find(script =>
+            script.src && (script.src === url || script.id === 'MathJax-script' ||
+              (/mathjax/i.test(script.src) &&
+               /\/(?:MathJax|latest|(?:tex|mml)(?:-mml)?-(?:chtml|svg))\.js(?:[?#]|$)/i.test(script.src))));
+          if (existing) {
+            if (!math?.startup?.promise) {
+              await new Promise((resolve, reject) => {
+                existing.addEventListener('load', resolve, { once: true });
+                existing.addEventListener('error', reject, { once: true });
+              });
+            }
+          } else {
+            // Keep site macros, delimiters and startup hooks when supplied.
+            const options = math || {};
+            window.MathJax = {
+              ...options,
+              loader: {
+                ...options.loader,
+                load: Array.from(new Set(['ui/safe', ...(options.loader?.load || [])]))
+              },
+              startup: { typeset: false, ...options.startup },
+              tex: {
+                tags: 'ams',
+                useLabelIds: true,
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                ...options.tex
+              }
+            };
+            await new Promise((resolve, reject) => {
+              const script = document.createElement('script');
+              script.src = config.url;
+              script.id = 'MathJax-script';
+              script.async = true;
+              script.onload = resolve;
+              script.onerror = reject;
+              document.head.appendChild(script);
+            });
+          }
+        }
+        math = window.MathJax;
+        await math.startup.promise;
+        return math;
+      })();
+    }
+    const math = await loading;
+    // A site owner can extend the v3 queue again on each navigation.
+    await math.startup.promise;
+    return math;
+  };
+
+  const unrendered = node => {
+    if (node.matches('mjx-container')) return [];
+    if (!node.querySelector('mjx-container')) return [node];
+    // In v3, scanning generated assistive MathML again produces nested output.
+    return Array.from(node.children).flatMap(unrendered);
+  };
+
+  const refresh = () => {
+    // A separate chain also serializes v3, without changing v4's startup promise.
+    queue = queue.then(async () => {
+      const notebooks = Array.from(document.querySelectorAll('.jupyter-wrapper'));
+      if (!notebooks.length && !previous.length) return;
+      if (notebooks.length === previous.length &&
+          notebooks.every((node, index) => node === previous[index])) return;
+      const math = await ready();
+      if (previous.length) {
+        math.typesetClear(previous);
+        math.texReset();
+      }
+      previous = notebooks.filter(node => node.isConnected);
+      const pending = previous.flatMap(unrendered);
+      if (pending.length) await math.typesetPromise(pending);
+    }).catch(error => console.error('mkdocs-jupyter: MathJax rendering failed', error));
+    return queue;
+  };
+
+  window.mkdocsJupyterMathJax = { refresh };
+  const start = () => {
+    if (typeof document$ !== 'undefined') document$.subscribe(refresh);
+    else refresh();
+  };
+  // Theme bundles and user-provided MathJax scripts can follow notebook content.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start, { once: true });
+  } else start();
+})();
+
+</script>
+</body>
+</html>
