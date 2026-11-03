@@ -14,7 +14,7 @@ dependencies = [
     "jupyter>=1.1.1",
     "kagglehub>=0.3.12",
     "matplotlib>=3.10.3",
-    "mkdocs>=1.6.1",
+    "mkdocs>=1.6.1,<2",
     "mkdocs-jupyter>=0.25.1",
     "mkdocs-mermaid2-plugin>=1.2.1",
     "mknotebooks>=0.8.0",
@@ -30,4 +30,9 @@ dependencies = [
     "tqdm>=4.67.1",
     "transformers>=4.53.3",
     "typer>=0.16.0",
+]
+
+[dependency-groups]
+manim = [
+    "manim>=0.22.1",
 ]

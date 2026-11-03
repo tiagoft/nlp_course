@@ -47,3 +47,8 @@ $$
 G = \frac{2 E_1 + 3 E_2 + 2 P + 3F}{10}
 $$
 
+## Want to contribute?
+
+This material accepts contributions! You can contribute fixes, examples, and exercises written by you, or features such as applets and animations. With an agent like Claude Code or Codex, you can fork the repository, apply the change, and open the pull request right from the terminal: the agent follows the course rules and helps get your contribution ready to be accepted.
+
+See the step by step in [How to contribute](how_to_contribute.md), and who has already contributed in [Contributions](contributions.md).
