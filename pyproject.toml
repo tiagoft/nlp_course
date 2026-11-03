@@ -31,3 +31,8 @@ dependencies = [
     "transformers>=4.53.3",
     "typer>=0.16.0",
 ]
+
+[dependency-groups]
+manim = [
+    "manim>=0.22.1",
+]

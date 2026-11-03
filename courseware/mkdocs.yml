@@ -23,6 +23,8 @@ nav:
     - 06 - Theory - Self-Attention and Self-Supervised Training: language_models/04-self_attention.ipynb
     - 07 - Case Study - Pre-trained BERT: language_models/06-pretrained_bert.ipynb
     - 08 - Practice - Fine-tuning BERT: language_models/07-finetuning_bert.ipynb
+  - How to contribute: how_to_contribute.md
+  - Contributions: contributions.md
 
 theme:
   name: mkdocs
@@ -54,3 +56,7 @@ plugins:
 extra_javascript:
   - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML
   - https://unpkg.com/mermaid/dist/mermaid.min.js
+  - extra/presentation/presentation.js
+
+extra_css:
+  - extra/presentation/presentation.css

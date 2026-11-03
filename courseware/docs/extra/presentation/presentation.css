@@ -1,0 +1,53 @@
+.presentation-mode-button {
+  position: fixed;
+  top: 0.7em;
+  right: 1em;
+  z-index: 1100;
+  padding: 0.55em 0.9em;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 999px;
+  background: rgba(0, 92, 155, 0.28);
+  box-shadow: 0 2px 6px rgba(0, 62, 105, 0.2);
+  color: #fff;
+  font-size: 0.85em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.presentation-mode-button:hover {
+  background: rgba(0, 74, 128, 0.48);
+  box-shadow: 0 3px 9px rgba(0, 62, 105, 0.28);
+  transform: translateY(-1px);
+}
+
+.presentation-mode-button:focus {
+  outline: 2px solid #168de2;
+  outline-offset: 2px;
+}
+
+body.presentation-mode .presentation-mode-button {
+  border-color: #168de2;
+  background: #168de2;
+}
+
+body.presentation-mode .presentation-mode-button:hover {
+  background: #0d74bd;
+}
+
+body.presentation-mode #header,
+body.presentation-mode #navigation,
+body.presentation-mode .navbar.fixed-top,
+body.presentation-mode .col-md-3 {
+  display: none;
+}
+
+body.presentation-mode #content,
+body.presentation-mode .col-md-9 {
+  width: auto;
+  margin-left: 0;
+}
+
+body.presentation-mode .col-md-9 {
+  width: 100%;
+}
