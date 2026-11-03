@@ -2267,7 +2267,7 @@ requires-dist = [
     { name = "jupyter", specifier = ">=1.1.1" },
     { name = "kagglehub", specifier = ">=0.3.12" },
     { name = "matplotlib", specifier = ">=3.10.3" },
-    { name = "mkdocs", specifier = ">=1.6.1" },
+    { name = "mkdocs", specifier = ">=1.6.1,<2" },
     { name = "mkdocs-jupyter", specifier = ">=0.25.1" },
     { name = "mkdocs-mermaid2-plugin", specifier = ">=1.2.1" },
     { name = "mknotebooks", specifier = ">=0.8.0" },
